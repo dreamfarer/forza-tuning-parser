@@ -30,5 +30,5 @@ import type { BinaryInput, ForzaTune } from './types.js';
 export async function parse(input: BinaryInput): Promise<ForzaTune> {
   const bytes = await toBytes(input);
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  return {ordinal: view.getInt32(2, true)}
+  return { ordinal: view.getInt32(2, true) };
 }

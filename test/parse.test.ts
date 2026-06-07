@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import {parse} from "../src";
+import { parse } from '../src';
 
 async function loadFixture(name: string): Promise<Uint8Array> {
   const url = new URL(`./fixtures/${name}`, import.meta.url);
@@ -19,5 +19,5 @@ describe('parse', async () => {
   it('reads car ordinal 4221 from a valid Forza tune file', async () => {
     const tune = await parse(validTune);
     expect(tune.ordinal).toBe(4221);
-  })
+  });
 });
