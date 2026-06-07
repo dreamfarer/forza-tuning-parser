@@ -1,6 +1,6 @@
 # forza-tuning-parser
 
-Parse Forza tuning binary files into a typed object. Works in both **Node.js** and the **browser**. Ships both **ESM** and **CJS**, and exports types for TypeScript but stays fully usable from JavaScript.
+Parse binary Forza tuning files into typed objects. Works in both **Node.js** and the **browser**. Ships both **ESM** and **CJS**, and exports types for TypeScript but stays fully usable from JavaScript.
 
 ## Install
 
@@ -9,6 +9,9 @@ npm install forza-tuning-parser
 ```
 
 ## Documentation
+If you want to reverse-engineer binary Forza tuning files yourself, you can find my [ImHex](https://github.com/WerWolv/ImHex) pattern [here](https://github.com/dreamfarer/forza-tuning-parser/blob/main/misc/ImHex/pattern.hexpat).
+
+### API Documentation
 
 ### `parse(input): Promise<ForzaTune>`
 

@@ -1,7 +1,7 @@
 {
   "name": "forza-tuning-parser",
-  "version": "0.0.0",
-  "description": "Parse Forza tuning files in Node.js and the browser.",
+  "version": "0.0.1",
+  "description": "Parse binary Forza tuning files in Node.js and the browser.",
   "keywords": [
     "forza",
     "horizon",
