@@ -1,21 +1,19 @@
 /**
- * Parse an Int32 in a binary Forza tuning file into a string, representing the restrictor plate upgrade.
+ * Parse an Int32 in a binary Forza tuning file into a string, representing the drivetrain swap upgrade.
  */
-export function parseRestrictorPlate(
+export function parseDrivetrainSwap(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
-): string | null {
+): string {
   const upgradeId = view.getInt32(byteOffset, true);
   const upgradeGrade = upgradeId % 1000;
   switch (upgradeGrade) {
-    case -1:
-      return null;
     case 0:
       return 'Stock';
     case 1:
-      return 'No Restrictor Plate';
+      return 'RWD (AWD if only option)';
     case 2:
-      return 'Remove Restrictor';
+      return 'AWD';
     default:
       return 'Invalid';
   }

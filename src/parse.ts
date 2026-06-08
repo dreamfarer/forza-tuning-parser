@@ -1,6 +1,10 @@
 import { parseDefault } from './internal/parse-default';
+import { parseDefaultIntercooler } from './internal/parse-default-Intercooler';
 import { parseDefaultOptional } from './internal/parse-default-optional';
+import { parseDrivetrainSwap } from './internal/parse-drivetrain-swap';
+import { parseEngineSwap } from './internal/parse-engine-swap';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
+import { parseStockNonStock } from './internal/parse-stock-non-stock';
 import { parseTurbo } from './internal/parse-turbo';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, ForzaTune } from './types.js';
@@ -53,7 +57,12 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
       twinTurbo: parseTurbo(view, 0x72),
       centrifugalSupercharger: parseDefaultOptional(view, 0x7a),
       supercharger: parseDefaultOptional(view, 0x7e),
-      intercooler: parseDefault(view, 0x82),
+      intercooler: parseDefaultIntercooler(view, 0x82),
+    },
+    conversions: {
+      engineSwap: parseEngineSwap(view, 0xe),
+      drivetrainSwap: parseDrivetrainSwap(view, 0x12),
+      bodySwap: parseStockNonStock(view, 0x16),
     },
   };
 }

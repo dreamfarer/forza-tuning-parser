@@ -1,6 +1,6 @@
 {
   "name": "forza-tuning-parser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Parse binary Forza tuning files in Node.js and the browser.",
   "keywords": [
     "forza",
