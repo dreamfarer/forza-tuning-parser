@@ -21,6 +21,6 @@ export function parseTurbo(
     case 4:
       return 'Race with Anti-Lag';
     default:
-      return 'Unknown';
+      return 'Invalid';
   }
 }

@@ -17,6 +17,6 @@ export function parseRestrictorPlate(
     case 2:
       return 'Remove Restrictor';
     default:
-      return 'Unknown';
+      return 'Invalid';
   }
 }

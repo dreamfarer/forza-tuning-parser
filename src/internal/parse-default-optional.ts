@@ -19,6 +19,6 @@ export function parseDefaultOptional(
     case 3:
       return 'Race';
     default:
-      return 'Unknown';
+      return 'Invalid';
   }
 }
