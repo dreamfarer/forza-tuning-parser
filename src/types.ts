@@ -33,5 +33,5 @@ export interface ForzaTune {
     engineSwap: string;
     drivetrainSwap: string;
     bodySwap: string;
-  }
+  };
 }

@@ -16,7 +16,9 @@ describe('parse', async () => {
   const volkswagenGolfGTI16vMk2 = await loadFixture(
     '1992-Volkswagen-Golf-GTI-16v-Mk2-Modified',
   );
-  const fordMustangShelbyGT500 = await loadFixture('2020-Ford-Mustang-Shelby-GT500-Modified')
+  const fordMustangShelbyGT500 = await loadFixture(
+    '2020-Ford-Mustang-Shelby-GT500-Modified',
+  );
 
   it('rejects unsupported input with a TypeError', async () => {
     // @ts-expect-error -- deliberately wrong type
