@@ -50,6 +50,10 @@ describe('parse', async () => {
     expect(tune.conversions.engineSwap).toBe('Stock');
     expect(tune.conversions.drivetrainSwap).toBe('Stock');
     expect(tune.conversions.bodySwap).toBe('Stock');
+    expect(tune.drivetrain.clutch).toBe('Stock');
+    expect(tune.drivetrain.transmission).toBe('Stock');
+    expect(tune.drivetrain.driveline).toBe('Stock');
+    expect(tune.drivetrain.differential).toBe('Stock');
   });
 
   it('parse upgrades for the modified 2004 Honda #52 Evasive Motorsports S2000 WTAC', async () => {
@@ -79,6 +83,10 @@ describe('parse', async () => {
     expect(tune.conversions.engineSwap).toBe('Stock');
     expect(tune.conversions.drivetrainSwap).toBe('Stock');
     expect(tune.conversions.bodySwap).toBe('Stock');
+    expect(tune.drivetrain.clutch).toBe('Stock');
+    expect(tune.drivetrain.transmission).toBe('Stock');
+    expect(tune.drivetrain.driveline).toBe('Stock');
+    expect(tune.drivetrain.differential).toBe('Stock');
   });
 
   it('parse upgrades for the modified 1992 Volkswagen Golf GTI 16v Mk2', async () => {
@@ -106,6 +114,10 @@ describe('parse', async () => {
     expect(tune.conversions.engineSwap).toBe('2nd Non-Stock');
     expect(tune.conversions.drivetrainSwap).toBe('AWD');
     expect(tune.conversions.bodySwap).toBe('Non-Stock');
+    expect(tune.drivetrain.clutch).toBe('Stock');
+    expect(tune.drivetrain.transmission).toBe('Race: 8-Speed');
+    expect(tune.drivetrain.driveline).toBe('Race');
+    expect(tune.drivetrain.differential).toBe('Race');
   });
 
   it('parse upgrades for the modified 2020 Ford Mustang Shelby GT500', async () => {
@@ -133,5 +145,9 @@ describe('parse', async () => {
     expect(tune.conversions.engineSwap).toBe('Stock');
     expect(tune.conversions.drivetrainSwap).toBe('RWD (AWD if only option)');
     expect(tune.conversions.bodySwap).toBe('Stock');
+    expect(tune.drivetrain.clutch).toBe('Stock');
+    expect(tune.drivetrain.transmission).toBe('Race: 9-Speed');
+    expect(tune.drivetrain.driveline).toBe('Race');
+    expect(tune.drivetrain.differential).toBe('Drift (Rally if FWD)');
   });
 });
