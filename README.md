@@ -8,18 +8,47 @@ Parse binary Forza tuning files into typed objects. Works in both **Node.js** an
 npm install forza-tuning-parser
 ```
 
-## Documentation
-If you want to reverse-engineer binary Forza tuning files yourself, you can find my [ImHex](https://github.com/WerWolv/ImHex) pattern [here](https://github.com/dreamfarer/forza-tuning-parser/blob/main/misc/ImHex/pattern.hexpat).
-
-### API Documentation
+## API
 
 ### `parse(input): Promise<ForzaTune>`
 
-| Param   | Type                                   | Notes                                            |
-| ------- | -------------------------------------- | ------------------------------------------------ |
-| `input` | `ArrayBuffer \| Uint8Array \| Blob`    | `Blob` also covers the browser `File`.           |
+| Param   | Type                                        |
+| ------- | ------------------------------------------- |
+| `input` | `ArrayBuffer \| Uint8Array \| Blob \| File` |
 
-Throws `TypeError` for unsupported input. Returns the parsed `ForzaTune`.
+Parses a binary Forza tuning file. Throws `TypeError` for unsupported input.
+
+If you want to reverse-engineer the binary format yourself, my [ImHex](https://github.com/WerWolv/ImHex) pattern is available [here](https://github.com/dreamfarer/forza-tuning-parser/blob/main/misc/ImHex/pattern.hexpat).
+
+### `ForzaTune`
+
+> [!IMPORTANT]
+> More fields are being currently added, this type is not yet complete.
+
+```ts
+interface ForzaTune {
+  ordinal: number;
+  engine: {
+    camshaft: string;
+    valves: string;
+    displacement: string;
+    pistons: string;
+    fuelSystemOrCarburetor: string;
+    ignition: string;
+    exhaust: string;
+    intake: string;
+    flywheel: string;
+    intakeManifold: string | null;
+    restrictorPlate: string | null;
+    oilCooling: string;
+    singleTurbo: string | null;
+    twinTurbo: string | null;
+    centrifugalSupercharger: string | null;
+    supercharger: string | null;
+    intercooler: string;
+  };
+}
+```
 
 ## Example Usage
 
