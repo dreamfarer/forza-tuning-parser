@@ -11,22 +11,22 @@ export type BinaryInput = ArrayBuffer | Uint8Array | Blob;
 export interface ForzaTune {
   ordinal: number;
   engine: {
+    intake: string;
+    intakeManifold: string | null;
+    fuelSystemOrCarburetor: string;
+    ignition: string;
+    exhaust: string;
     camshaft: string;
     valves: string;
     displacement: string;
     pistons: string;
-    fuelSystemOrCarburetor: string;
-    ignition: string;
-    exhaust: string;
-    intake: string;
-    flywheel: string;
-    intakeManifold: string | null;
-    restrictorPlate: string | null;
-    oilCooling: string;
     singleTurbo: string | null;
     twinTurbo: string | null;
     centrifugalSupercharger: string | null;
     supercharger: string | null;
     intercooler: string;
+    oilCooling: string;
+    flywheel: string;
+    restrictorPlate: string | null;
   };
 }
