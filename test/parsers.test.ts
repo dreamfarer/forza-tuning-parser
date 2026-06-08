@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { parseDefault } from '../src/internal/parse-default';
 import { parseDefaultIntercooler } from '../src/internal/parse-default-Intercooler';
 import { parseDefaultOptional } from '../src/internal/parse-default-optional';
+import { parseDifferential } from '../src/internal/parse-differential';
 import { parseDrivetrainSwap } from '../src/internal/parse-drivetrain-swap';
 import { parseEngineSwap } from '../src/internal/parse-engine-swap';
 import { parseRestrictorPlate } from '../src/internal/parse-restrictor-plate';
 import { parseStockNonStock } from '../src/internal/parse-stock-non-stock';
+import { parseTransmission } from '../src/internal/parse-transmission';
 import { parseTurbo } from '../src/internal/parse-turbo';
 
 function makeView(grade: number): DataView {
@@ -146,4 +148,142 @@ describe('parseStockNonStock', () => {
   it('Stock', () => expect(parseStockNonStock(makeView(0), 0)).toBe('Stock'));
   it('Non-Stock', () =>
     expect(parseStockNonStock(makeView(1), 0)).toBe('Non-Stock'));
+});
+
+describe('parseDifferential', () => {
+  it('Stock', () => expect(parseDifferential(makeView(0), 0)).toBe('Stock'));
+  it('Street', () => expect(parseDifferential(makeView(1), 0)).toBe('Street'));
+  it('Sport', () => expect(parseDifferential(makeView(2), 0)).toBe('Sport'));
+  it('Race', () => expect(parseDifferential(makeView(3), 0)).toBe('Race'));
+  it('Rally', () => expect(parseDifferential(makeView(4), 0)).toBe('Rally'));
+  it('Drift', () =>
+    expect(parseDifferential(makeView(5), 0)).toBe('Drift (Rally if FWD)'));
+  it('Off-Road', () =>
+    expect(parseDifferential(makeView(6), 0)).toBe('Off-Road'));
+  it('Rally (if FWD)', () =>
+    expect(parseDifferential(makeView(5), 0)).toBe('Drift (Rally if FWD)'));
+  it('Off-Road (if FWD)', () =>
+    expect(parseDifferential(makeView(7), 0)).toBe('Off-Road'));
+  it('Invalid differential', () =>
+    expect(parseDifferential(makeView(8), 0)).toBe('Invalid'));
+});
+
+describe('parseTransmission', () => {
+  const fourSpeed = [1, 1, 1, 1];
+  const sixSpeed = [1, 1, 1, 1, 1, 1];
+  const sevenSpeed = [1, 1, 1, 1, 1, 1, 1];
+  const eightSpeed = [1, 1, 1, 1, 1, 1, 1, 1];
+  const nineSpeed = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+  const tenSpeed = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+  it('Stock', () =>
+    expect(parseTransmission(makeView(0), 0, sixSpeed)).toBe('Stock'));
+  it('Street', () =>
+    expect(parseTransmission(makeView(1), 0, sixSpeed)).toBe('Street'));
+  it('Sport', () =>
+    expect(parseTransmission(makeView(2), 0, sixSpeed)).toBe('Sport'));
+  it('Race', () =>
+    expect(parseTransmission(makeView(3), 0, sixSpeed)).toBe('Race'));
+
+  describe('standard Race is 6-Speed', () => {
+    it('Race: 7-Speed', () =>
+      expect(parseTransmission(makeView(4), 0, sevenSpeed)).toBe(
+        'Race: 7-Speed',
+      ));
+    it('Race: 8-Speed', () =>
+      expect(parseTransmission(makeView(5), 0, eightSpeed)).toBe(
+        'Race: 8-Speed',
+      ));
+    it('Race: 9-Speed', () =>
+      expect(parseTransmission(makeView(6), 0, nineSpeed)).toBe(
+        'Race: 9-Speed',
+      ));
+    it('Race: 10-Speed', () =>
+      expect(parseTransmission(makeView(7), 0, tenSpeed)).toBe(
+        'Race: 10-Speed',
+      ));
+  });
+
+  describe('standard Race is 7-Speed', () => {
+    it('Race: 6-Speed', () =>
+      expect(parseTransmission(makeView(4), 0, sixSpeed)).toBe(
+        'Race: 6-Speed',
+      ));
+    it('Race: 8-Speed', () =>
+      expect(parseTransmission(makeView(5), 0, eightSpeed)).toBe(
+        'Race: 8-Speed',
+      ));
+    it('Race: 9-Speed', () =>
+      expect(parseTransmission(makeView(6), 0, nineSpeed)).toBe(
+        'Race: 9-Speed',
+      ));
+    it('Race: 10-Speed', () =>
+      expect(parseTransmission(makeView(7), 0, tenSpeed)).toBe(
+        'Race: 10-Speed',
+      ));
+  });
+
+  describe('standard Race is 8-Speed', () => {
+    it('Race: 6-Speed', () =>
+      expect(parseTransmission(makeView(4), 0, sixSpeed)).toBe(
+        'Race: 6-Speed',
+      ));
+    it('Race: 7-Speed', () =>
+      expect(parseTransmission(makeView(5), 0, sevenSpeed)).toBe(
+        'Race: 7-Speed',
+      ));
+    it('Race: 9-Speed', () =>
+      expect(parseTransmission(makeView(6), 0, nineSpeed)).toBe(
+        'Race: 9-Speed',
+      ));
+    it('Race: 10-Speed', () =>
+      expect(parseTransmission(makeView(7), 0, tenSpeed)).toBe(
+        'Race: 10-Speed',
+      ));
+  });
+
+  describe('standard Race is 9-Speed', () => {
+    it('Race: 6-Speed', () =>
+      expect(parseTransmission(makeView(4), 0, sixSpeed)).toBe(
+        'Race: 6-Speed',
+      ));
+    it('Race: 7-Speed', () =>
+      expect(parseTransmission(makeView(5), 0, sevenSpeed)).toBe(
+        'Race: 7-Speed',
+      ));
+    it('Race: 8-Speed', () =>
+      expect(parseTransmission(makeView(6), 0, eightSpeed)).toBe(
+        'Race: 8-Speed',
+      ));
+    it('Race: 10-Speed', () =>
+      expect(parseTransmission(makeView(7), 0, tenSpeed)).toBe(
+        'Race: 10-Speed',
+      ));
+  });
+
+  describe('standard Race is 10-Speed', () => {
+    it('Race: 6-Speed', () =>
+      expect(parseTransmission(makeView(4), 0, sixSpeed)).toBe(
+        'Race: 6-Speed',
+      ));
+    it('Race: 7-Speed', () =>
+      expect(parseTransmission(makeView(5), 0, sevenSpeed)).toBe(
+        'Race: 7-Speed',
+      ));
+    it('Race: 8-Speed', () =>
+      expect(parseTransmission(makeView(6), 0, eightSpeed)).toBe(
+        'Race: 8-Speed',
+      ));
+    it('Race: 9-Speed', () =>
+      expect(parseTransmission(makeView(7), 0, nineSpeed)).toBe(
+        'Race: 9-Speed',
+      ));
+  });
+
+  it('Drift: 4-Speed', () =>
+    expect(parseTransmission(makeView(8), 0, fourSpeed)).toBe(
+      'Drift: 4-Speed',
+    ));
+  it('Invalid', () =>
+    expect(parseTransmission(makeView(9), 0, sixSpeed)).toBe('Invalid'));
 });

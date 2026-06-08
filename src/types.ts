@@ -29,9 +29,18 @@ export interface ForzaTune {
     flywheel: string;
     restrictorPlate: string | null;
   };
+  drivetrain: {
+    clutch: string;
+    transmission: string;
+    driveline: string;
+    differential: string;
+  };
   conversions: {
     engineSwap: string;
     drivetrainSwap: string;
     bodySwap: string;
+  };
+  tuning: {
+    gearRatios: number[];
   };
 }
