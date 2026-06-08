@@ -1,11 +1,14 @@
 import { parseDefault } from './internal/parse-default';
 import { parseDefaultIntercooler } from './internal/parse-default-Intercooler';
 import { parseDefaultOptional } from './internal/parse-default-optional';
+import { parseDifferential } from './internal/parse-differential';
 import { parseDrivetrainSwap } from './internal/parse-drivetrain-swap';
 import { parseEngineSwap } from './internal/parse-engine-swap';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
 import { parseStockNonStock } from './internal/parse-stock-non-stock';
+import { parseTransmission } from './internal/parse-transmission';
 import { parseTurbo } from './internal/parse-turbo';
+import { readFloatArray } from './internal/read-float-array';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, ForzaTune } from './types.js';
 
@@ -38,6 +41,7 @@ import type { BinaryInput, ForzaTune } from './types.js';
 export async function parse(input: BinaryInput): Promise<ForzaTune> {
   const bytes = await toBytes(input);
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const tuning = { gearRatios: readFloatArray(view, 0x22e, 10) };
   return {
     ordinal: view.getInt32(0x2, true),
     engine: {
@@ -59,10 +63,17 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
       supercharger: parseDefaultOptional(view, 0x7e),
       intercooler: parseDefaultIntercooler(view, 0x82),
     },
+    drivetrain: {
+      clutch: parseDefault(view, 0x86),
+      transmission: parseTransmission(view, 0x8a, tuning.gearRatios),
+      driveline: parseDefault(view, 0x8e),
+      differential: parseDifferential(view, 0x92),
+    },
     conversions: {
       engineSwap: parseEngineSwap(view, 0xe),
       drivetrainSwap: parseDrivetrainSwap(view, 0x12),
       bodySwap: parseStockNonStock(view, 0x16),
     },
+    tuning,
   };
 }
