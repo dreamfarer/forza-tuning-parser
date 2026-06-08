@@ -16,6 +16,7 @@ describe('parse', async () => {
   const volkswagenGolfGTI16vMk2 = await loadFixture(
     '1992-Volkswagen-Golf-GTI-16v-Mk2-Modified',
   );
+  const fordMustangShelbyGT500 = await loadFixture('2020-Ford-Mustang-Shelby-GT500-Modified')
 
   it('rejects unsupported input with a TypeError', async () => {
     // @ts-expect-error -- deliberately wrong type
@@ -44,6 +45,9 @@ describe('parse', async () => {
     expect(tune.engine.oilCooling).toBe('Stock');
     expect(tune.engine.flywheel).toBe('Stock');
     expect(tune.engine.restrictorPlate).toBe(null);
+    expect(tune.conversions.engineSwap).toBe('Stock');
+    expect(tune.conversions.drivetrainSwap).toBe('Stock');
+    expect(tune.conversions.bodySwap).toBe('Stock');
   });
 
   it('parse upgrades for the modified 2004 Honda #52 Evasive Motorsports S2000 WTAC', async () => {
@@ -70,6 +74,9 @@ describe('parse', async () => {
     expect(tune.engine.oilCooling).toBe('Stock');
     expect(tune.engine.flywheel).toBe('Stock');
     expect(tune.engine.restrictorPlate).toBe('No Restrictor Plate');
+    expect(tune.conversions.engineSwap).toBe('Stock');
+    expect(tune.conversions.drivetrainSwap).toBe('Stock');
+    expect(tune.conversions.bodySwap).toBe('Stock');
   });
 
   it('parse upgrades for the modified 1992 Volkswagen Golf GTI 16v Mk2', async () => {
@@ -94,5 +101,35 @@ describe('parse', async () => {
     expect(tune.engine.oilCooling).toBe('Race');
     expect(tune.engine.flywheel).toBe('Street');
     expect(tune.engine.restrictorPlate).toBe(null);
+    expect(tune.conversions.engineSwap).toBe('2nd Non-Stock');
+    expect(tune.conversions.drivetrainSwap).toBe('AWD');
+    expect(tune.conversions.bodySwap).toBe('Non-Stock');
+  });
+
+  it('parse upgrades for the modified 2020 Ford Mustang Shelby GT500', async () => {
+    const tune = await parse(fordMustangShelbyGT500);
+    expect(tune.ordinal).toBe(3277);
+    expect(tune.engine.intake).toBe('Race');
+    expect(tune.engine.intakeManifold).toBe(null);
+    expect(tune.engine.fuelSystemOrCarburetor).toBe('Sport');
+    expect(tune.engine.ignition).toBe('Race');
+    expect(tune.engine.exhaust).toBe('Sport');
+    expect(tune.engine.camshaft).toBe('Stock');
+    expect(tune.engine.valves).toBe('Sport');
+    expect(tune.engine.displacement).toBe('Race');
+    expect(tune.engine.pistons).toBe('Stock');
+    expect(tune.engine.singleTurbo).toBe(null);
+    expect(tune.engine.twinTurbo).toBe(null);
+    expect(tune.engine.centrifugalSupercharger).toBe(null);
+    expect(tune.engine.supercharger).toBe('Stock');
+    expect(tune.engine.intercooler).toBe(
+      'Stock (Street if No Intercooler possible)',
+    );
+    expect(tune.engine.oilCooling).toBe('Race');
+    expect(tune.engine.flywheel).toBe('Sport');
+    expect(tune.engine.restrictorPlate).toBe(null);
+    expect(tune.conversions.engineSwap).toBe('Stock');
+    expect(tune.conversions.drivetrainSwap).toBe('RWD (AWD if only option)');
+    expect(tune.conversions.bodySwap).toBe('Stock');
   });
 });
