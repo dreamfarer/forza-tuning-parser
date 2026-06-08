@@ -1,4 +1,5 @@
 import { parseDefault } from './internal/parse-default';
+import { parseDefaultIntercooler } from './internal/parse-default-Intercooler';
 import { parseDefaultOptional } from './internal/parse-default-optional';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
 import { parseTurbo } from './internal/parse-turbo';
@@ -53,7 +54,7 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
       twinTurbo: parseTurbo(view, 0x72),
       centrifugalSupercharger: parseDefaultOptional(view, 0x7a),
       supercharger: parseDefaultOptional(view, 0x7e),
-      intercooler: parseDefault(view, 0x82),
+      intercooler: parseDefaultIntercooler(view, 0x82),
     },
   };
 }
