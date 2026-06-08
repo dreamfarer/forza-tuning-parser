@@ -1,9 +1,9 @@
-import { toBytes } from './internal/to-bytes.js';
-import type { BinaryInput, ForzaTune } from './types.js';
-import { parseDefaultOptional } from './internal/parse-default-optional';
 import { parseDefault } from './internal/parse-default';
+import { parseDefaultOptional } from './internal/parse-default-optional';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
 import { parseTurbo } from './internal/parse-turbo';
+import { toBytes } from './internal/to-bytes.js';
+import type { BinaryInput, ForzaTune } from './types.js';
 
 /**
  * Parse a binary Forza tuning file into a typed {@link ForzaTune} object.
