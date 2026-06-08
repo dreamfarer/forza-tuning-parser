@@ -5,6 +5,9 @@ import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
 import { parseTurbo } from './internal/parse-turbo';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, ForzaTune } from './types.js';
+import {parseEngineSwap} from "./internal/parse-engine-swap";
+import {parseDrivetrainSwap} from "./internal/parse-drivetrain-swap";
+import {parseStockNonStock} from "./internal/parse-stock-non-stock";
 
 /**
  * Parse a binary Forza tuning file into a typed {@link ForzaTune} object.
@@ -55,6 +58,11 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
       centrifugalSupercharger: parseDefaultOptional(view, 0x7a),
       supercharger: parseDefaultOptional(view, 0x7e),
       intercooler: parseDefaultIntercooler(view, 0x82),
+    },
+    conversions: {
+      engineSwap: parseEngineSwap(view, 0xE),
+      drivetrainSwap: parseDrivetrainSwap(view, 0x12),
+      bodySwap: parseStockNonStock(view, 0x16),
     },
   };
 }

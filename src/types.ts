@@ -29,4 +29,9 @@ export interface ForzaTune {
     flywheel: string;
     restrictorPlate: string | null;
   };
+  conversions: {
+    engineSwap: string;
+    drivetrainSwap: string;
+    bodySwap: string;
+  }
 }
