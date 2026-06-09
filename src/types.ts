@@ -41,6 +41,67 @@ export interface ForzaTune {
     bodySwap: string;
   };
   tuning: {
-    gearRatios: number[];
+    tyrePressure: {
+      front: number;
+      rear: number;
+    };
+    gearing: {
+      finalDrive: number;
+      ratios: number[];
+    };
+    alignment: {
+      camber: {
+        front: number;
+        rear: number;
+      };
+      toe: {
+        front: number;
+        rear: number;
+      };
+      caster: number;
+    };
+    antiRollBars: {
+      front: number;
+      rear: number;
+    };
+    springs: {
+      stiffness: {
+        front: number;
+        rear: number;
+      };
+      rideHeight: {
+        front: number;
+        rear: number;
+      };
+    };
+    damping: {
+      reboundStiffness: {
+        front: number;
+        rear: number;
+      };
+      bumpStiffness: {
+        front: number;
+        rear: number;
+      };
+    };
+    aero: {
+      front: number;
+      rear: number;
+    };
+    brakes: {
+      balance: number;
+      pressure: number;
+    };
+    differential: {
+      front: {
+        acceleration: number;
+        deceleration: number;
+      };
+      rear: {
+        acceleration: number;
+        deceleration: number;
+      };
+      balance: number;
+    };
   };
 }
