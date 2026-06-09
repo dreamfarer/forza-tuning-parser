@@ -41,7 +41,70 @@ import type { BinaryInput, ForzaTune } from './types.js';
 export async function parse(input: BinaryInput): Promise<ForzaTune> {
   const bytes = await toBytes(input);
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  const tuning = { gearRatios: readFloatArray(view, 0x22e, 10) };
+  const tuning = {
+    tyrePressure: {
+      front: view.getFloat32(0x1ce, true),
+      rear: view.getFloat32(0x1fa, true),
+    },
+    gearing: {
+      finalDrive: view.getFloat32(0x1a6, true),
+      ratios: readFloatArray(view, 0x22e, 10),
+    },
+    alignment: {
+      camber: {
+        front: view.getFloat32(0x1d2, true),
+        rear: view.getFloat32(0x1fe, true),
+      },
+      toe: {
+        front: view.getFloat32(0x1d6, true),
+        rear: view.getFloat32(0x202, true),
+      },
+      caster: view.getFloat32(0x1da, true),
+    },
+    antiRollBars: {
+      front: view.getFloat32(0x1e2, true),
+      rear: view.getFloat32(0x20e, true),
+    },
+    springs: {
+      stiffness: {
+        front: view.getFloat32(0x1de, true),
+        rear: view.getFloat32(0x20a, true),
+      },
+      rideHeight: {
+        front: view.getFloat32(0x1e6, true),
+        rear: view.getFloat32(0x212, true),
+      },
+    },
+    damping: {
+      reboundStiffness: {
+        front: view.getFloat32(0x1ee, true),
+        rear: view.getFloat32(0x21a, true),
+      },
+      bumpStiffness: {
+        front: view.getFloat32(0x1ea, true),
+        rear: view.getFloat32(0x216, true),
+      },
+    },
+    aero: {
+      front: view.getFloat32(0x19e, true),
+      rear: view.getFloat32(0x1a2, true),
+    },
+    brakes: {
+      balance: view.getFloat32(0x1ae, true),
+      pressure: view.getFloat32(0x1aa, true),
+    },
+    differential: {
+      front: {
+        acceleration: view.getFloat32(0x1f2, true),
+        deceleration: view.getFloat32(0x1f6, true),
+      },
+      rear: {
+        acceleration: view.getFloat32(0x21e, true),
+        deceleration: view.getFloat32(0x222, true),
+      },
+      balance: view.getFloat32(0x1b6, true),
+    },
+  };
   return {
     ordinal: view.getInt32(0x2, true),
     engine: {
@@ -65,7 +128,7 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
     },
     drivetrain: {
       clutch: parseDefault(view, 0x86),
-      transmission: parseTransmission(view, 0x8a, tuning.gearRatios),
+      transmission: parseTransmission(view, 0x8a, tuning.gearing.ratios),
       driveline: parseDefault(view, 0x8e),
       differential: parseDifferential(view, 0x92),
     },
