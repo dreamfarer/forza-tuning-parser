@@ -1,6 +1,8 @@
 # forza-tuning-parser
 
-Parse binary Forza tuning files into typed objects. Works in both **Node.js** and the **browser**. Ships both **ESM** and **CJS**, and exports types for TypeScript but stays fully usable from JavaScript.
+Parse binary Forza tuning files into typed objects. Works in both **Node.js** and the **browser**. It exports types for TypeScript but stays fully usable from JavaScript.
+
+This package outputs in **imperial** units only because the in-game UI sliders create ambiguity when using metric units (_e.g. there are 14 slider positions which read 1.1 bar tyre pressure_).
 
 ## Install
 
@@ -16,7 +18,7 @@ npm install forza-tuning-parser
 | ------- | ------------------------------------------- |
 | `input` | `ArrayBuffer \| Uint8Array \| Blob \| File` |
 
-Parses a binary Forza tuning file. Throws `TypeError` for unsupported input.
+Parses a binary Forza tuning file. Throws `TypeError` for unsupported input and `RangeError` if field could not be parsed.
 
 If you want to reverse-engineer the binary format yourself, my [ImHex](https://github.com/WerWolv/ImHex) pattern is available [here](https://github.com/dreamfarer/forza-tuning-parser/blob/main/misc/ImHex/pattern.hexpat).
 
@@ -63,6 +65,8 @@ interface ForzaTune {
   };
 }
 ```
+
+Returns `null` for each field that is not present.
 
 ## Example Usage
 
