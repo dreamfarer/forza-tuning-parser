@@ -4,11 +4,11 @@ import { parseDefaultOptional } from './internal/parse-default-optional';
 import { parseDifferential } from './internal/parse-differential';
 import { parseDrivetrainSwap } from './internal/parse-drivetrain-swap';
 import { parseEngineSwap } from './internal/parse-engine-swap';
+import { parseFloatArray } from './internal/parse-float-array';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
 import { parseStockNonStock } from './internal/parse-stock-non-stock';
 import { parseTransmission } from './internal/parse-transmission';
 import { parseTurbo } from './internal/parse-turbo';
-import { readFloatArray } from './internal/read-float-array';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, ForzaTune } from './types.js';
 
@@ -48,7 +48,7 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
     },
     gearing: {
       finalDrive: view.getFloat32(0x1a6, true),
-      ratios: readFloatArray(view, 0x22e, 10),
+      ratios: parseFloatArray(view, 0x22e, 10),
     },
     alignment: {
       camber: {

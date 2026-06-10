@@ -1,7 +1,7 @@
 /**
- * Read the specified number of Float32 in a binary Forza tuning file into a number array.
+ * Parse the specified number of Float32 in a binary Forza tuning file into a number array.
  */
-export function readFloatArray(
+export function parseFloatArray(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
   length: number,
