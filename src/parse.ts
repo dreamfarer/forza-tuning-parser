@@ -1,6 +1,5 @@
 import { parseAntiRollBar } from './internal/parse-anti-roll-bar';
 import { parseBrakePressure } from './internal/parse-brake-pressure';
-import { parseBumpStiffness } from './internal/parse-bump-stiffness';
 import { parseCamber } from './internal/parse-camber';
 import { parseCaster } from './internal/parse-caster';
 import { parseDefault } from './internal/parse-default';
@@ -12,9 +11,10 @@ import { parseEngineSwap } from './internal/parse-engine-swap';
 import { parseFinalDrive } from './internal/parse-final-drive';
 import { parseGearRatios } from './internal/parse-gear-ratios';
 import { parseInteger } from './internal/parse-integer';
-import { parseReboundStiffness } from './internal/parse-rebound-stiffness';
+import { parsePercent } from './internal/parse-percent';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
 import { parseSpringStiffness } from './internal/parse-spring-stiffness';
+import { parseDamping } from './internal/parse-damping';
 import { parseStockNonStock } from './internal/parse-stock-non-stock';
 import { parseToe } from './internal/parse-toe';
 import { parseTransmission } from './internal/parse-transmission';
@@ -22,7 +22,6 @@ import { parseTurbo } from './internal/parse-turbo';
 import { parseTyrePressure } from './internal/parse-tyre-pressure';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, ForzaTune } from './types.js';
-import {parsePercent} from "./internal/parse-percent";
 
 /**
  * Parse a binary Forza tuning file into a typed {@link ForzaTune} object.
@@ -89,12 +88,12 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
     },
     damping: {
       reboundStiffness: {
-        front: parseReboundStiffness(view, 0x1ee),
-        rear: parseReboundStiffness(view, 0x21a),
+        front: parseDamping(view, 0x1ee),
+        rear: parseDamping(view, 0x21a),
       },
       bumpStiffness: {
-        front: parseBumpStiffness(view, 0x1ea),
-        rear: parseBumpStiffness(view, 0x216),
+        front: parseDamping(view, 0x1ea),
+        rear: parseDamping(view, 0x216),
       },
     },
     aero: {

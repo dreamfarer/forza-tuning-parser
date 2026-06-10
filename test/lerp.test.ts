@@ -38,12 +38,6 @@ describe('lerp', () => {
     expect(lerp(1.0, 1.0, 65.0)).toBe(65.0);
   });
 
-  it('linearly interpolate between 1.0 and 20.0 (bump stiffness, rebound stiffness)', () => {
-    expect(lerp(0.0, 1.0, 20.0)).toBe(1.0);
-    expect(lerp(0.5, 1.0, 20.0)).toBe(10.5);
-    expect(lerp(1.0, 1.0, 20.0)).toBe(20.0);
-  });
-
   it('linearly interpolate between 0.0 and 100.0 (%, brake force)', () => {
     expect(lerp(0.0, 0.0, 200.0)).toBe(0.0);
     expect(lerp(0.5, 0.0, 200.0)).toBe(100.0);
