@@ -1,5 +1,10 @@
 /**
- * Parse an Int32 in a binary Forza tuning file into a string, representing the upgrade where it can only be distinuished between stock and non-stock.
+ * Parse an arbitrary upgrade grade (stock, non-stock) from a binary Forza tuning file.
+ *
+ * @param view The DataView to read from.
+ * @param byteOffset The byte offset to read from.
+ *
+ * @returns The parsed upgrade grade.
  */
 export function parseStockNonStock(
   view: DataView<ArrayBufferLike>,

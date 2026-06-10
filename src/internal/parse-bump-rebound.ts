@@ -1,16 +1,16 @@
 import { lerp } from './lerp';
 
 /**
- * Parses a damping value from a binary Forza tuning file.
+ * Parse a bump or rebound stiffness value from a binary Forza tuning file.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.
  *
- * @returns The parsed damping value.
+ * @returns The parsed bump or rebound stiffness value.
  *
- * @throws RangeError If the damping value is not between 1 and 20.
+ * @throws RangeError If the raw value is not between 1 and 20.
  */
-export function parseDamping(
+export function parseBumpRebound(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
 ): number {

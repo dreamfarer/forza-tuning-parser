@@ -2,6 +2,12 @@ import type { BinaryInput } from '../types.js';
 
 /**
  * Normalize any supported {@link BinaryInput} into a {@link Uint8Array}.
+ *
+ * @param input The input to normalize.
+ *
+ * @returns The normalized input.
+ *
+ * @throws TypeError If the input is not supported.
  */
 export async function toBytes(input: BinaryInput): Promise<Uint8Array> {
   if (input instanceof Uint8Array) {

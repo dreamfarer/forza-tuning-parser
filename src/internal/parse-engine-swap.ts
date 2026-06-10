@@ -1,5 +1,10 @@
 /**
- * Parse an Int32 in a binary Forza tuning file into a string, representing the engine swap upgrade.
+ * Parse the engine swap upgrade from a binary Forza tuning file.
+ *
+ * @param view The DataView to read from.
+ * @param byteOffset The byte offset to read from.
+ *
+ * @returns The parsed engine swap upgrade.
  */
 export function parseEngineSwap(
   view: DataView<ArrayBufferLike>,

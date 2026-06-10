@@ -1,7 +1,7 @@
 import { lerp } from './lerp';
 
 /**
- * Parse a float value to per cent.
+ * Parse a float value to per cent from a binary Forza tuning file.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.

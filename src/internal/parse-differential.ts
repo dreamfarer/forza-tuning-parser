@@ -1,5 +1,10 @@
 /**
- * Parse an Int32 in a binary Forza tuning file into a string, representing the differential upgrade.
+ * Parse the differential upgrade from a binary Forza tuning file.
+ *
+ * @param view The DataView to read from.
+ * @param byteOffset The byte offset to read from.
+ *
+ * @returns The parsed differential upgrade.
  */
 export function parseDifferential(
   view: DataView<ArrayBufferLike>,

@@ -1,5 +1,10 @@
 /**
- * Parse an Int32 in a binary Forza tuning file into a string, representing the default upgrade (not present (null), stock, street, sport, race).
+ * Parse an arbitrary upgrade grade (null, stock, street, sport, race) from a binary Forza tuning file.
+ *
+ * @param view The DataView to read from.
+ * @param byteOffset The byte offset to read from.
+ *
+ *  @returns The parsed upgrade grade.
  */
 export function parseDefaultOptional(
   view: DataView<ArrayBufferLike>,

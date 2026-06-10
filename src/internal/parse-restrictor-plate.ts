@@ -1,5 +1,10 @@
 /**
- * Parse an Int32 in a binary Forza tuning file into a string, representing the restrictor plate upgrade.
+ * Parse the restrictor plate upgrade from a binary Forza tuning file.
+ *
+ * @param view The DataView to read from.
+ * @param byteOffset The byte offset to read from.
+ *
+ * @returns The parsed restrictor plate upgrade.
  */
 export function parseRestrictorPlate(
   view: DataView<ArrayBufferLike>,
