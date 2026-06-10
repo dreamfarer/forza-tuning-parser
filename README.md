@@ -2,7 +2,9 @@
 
 Parse binary Forza tuning files into typed objects. Works in both **Node.js** and the **browser**. It exports types for TypeScript but stays fully usable from JavaScript.
 
-This package outputs in **imperial** units only because the in-game UI sliders create ambiguity when using metric units (_e.g. there are 14 slider positions which read 1.1 bar tyre pressure_).
+_Spring stiffness_, _ride height_ and _aero_ values are car-dependent. Since this package does not know the stats for each car, it outputs these values as slider positions in per cent (_%_). All other tuning values are reported correctly.
+
+This package outputs in **imperial** units only because the in-game UI sliders create ambiguity when using metric units (_e.g. there are 14 slider positions which all read 1.1 bar tyre pressure_).
 
 ## Install
 
