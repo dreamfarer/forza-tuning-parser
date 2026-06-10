@@ -1,16 +1,16 @@
 import { lerp } from './lerp';
 
 /**
- * Parse aero from a float value.
+ * Parse a float value to per cent.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.
  *
- * @returns The parsed aero value.
+ * @returns The parsed brake balance value.
  *
- * @throws RangeError If the aero value is not between 0 and 100.
+ * @throws RangeError If the brake balance value is not between 0 and 100.
  */
-export function parseAero(
+export function parsePercent(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
 ): number {

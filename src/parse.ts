@@ -1,16 +1,28 @@
+import { parseAntiRollBar } from './internal/parse-anti-roll-bar';
+import { parseBrakePressure } from './internal/parse-brake-pressure';
+import { parseBumpStiffness } from './internal/parse-bump-stiffness';
+import { parseCamber } from './internal/parse-camber';
+import { parseCaster } from './internal/parse-caster';
 import { parseDefault } from './internal/parse-default';
 import { parseDefaultIntercooler } from './internal/parse-default-Intercooler';
 import { parseDefaultOptional } from './internal/parse-default-optional';
 import { parseDifferential } from './internal/parse-differential';
 import { parseDrivetrainSwap } from './internal/parse-drivetrain-swap';
 import { parseEngineSwap } from './internal/parse-engine-swap';
-import { parseFloatArray } from './internal/parse-float-array';
+import { parseFinalDrive } from './internal/parse-final-drive';
+import { parseGearRatios } from './internal/parse-gear-ratios';
+import { parseInteger } from './internal/parse-integer';
+import { parseReboundStiffness } from './internal/parse-rebound-stiffness';
 import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
+import { parseSpringStiffness } from './internal/parse-spring-stiffness';
 import { parseStockNonStock } from './internal/parse-stock-non-stock';
+import { parseToe } from './internal/parse-toe';
 import { parseTransmission } from './internal/parse-transmission';
 import { parseTurbo } from './internal/parse-turbo';
+import { parseTyrePressure } from './internal/parse-tyre-pressure';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, ForzaTune } from './types.js';
+import {parsePercent} from "./internal/parse-percent";
 
 /**
  * Parse a binary Forza tuning file into a typed {@link ForzaTune} object.
@@ -43,70 +55,70 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   const tuning = {
     tyrePressure: {
-      front: view.getFloat32(0x1ce, true),
-      rear: view.getFloat32(0x1fa, true),
+      front: parseTyrePressure(view, 0x1ce),
+      rear: parseTyrePressure(view, 0x1fa),
     },
     gearing: {
-      finalDrive: view.getFloat32(0x1a6, true),
-      ratios: parseFloatArray(view, 0x22e, 10),
+      finalDrive: parseFinalDrive(view, 0x1a6),
+      ratios: parseGearRatios(view, 0x22e),
     },
     alignment: {
       camber: {
-        front: view.getFloat32(0x1d2, true),
-        rear: view.getFloat32(0x1fe, true),
+        front: parseCamber(view, 0x1d2),
+        rear: parseCamber(view, 0x1fe),
       },
       toe: {
-        front: view.getFloat32(0x1d6, true),
-        rear: view.getFloat32(0x202, true),
+        front: parseToe(view, 0x1d6),
+        rear: parseToe(view, 0x202),
       },
-      caster: view.getFloat32(0x1da, true),
+      caster: parseCaster(view, 0x1da),
     },
     antiRollBars: {
-      front: view.getFloat32(0x1e2, true),
-      rear: view.getFloat32(0x20e, true),
+      front: parseAntiRollBar(view, 0x1e2),
+      rear: parseAntiRollBar(view, 0x20e),
     },
     springs: {
       stiffness: {
-        front: view.getFloat32(0x1de, true),
-        rear: view.getFloat32(0x20a, true),
+        front: parseSpringStiffness(view, 0x1de),
+        rear: parseSpringStiffness(view, 0x20a),
       },
       rideHeight: {
-        front: view.getFloat32(0x1e6, true),
-        rear: view.getFloat32(0x212, true),
+        front: parsePercent(view, 0x1e6),
+        rear: parsePercent(view, 0x212),
       },
     },
     damping: {
       reboundStiffness: {
-        front: view.getFloat32(0x1ee, true),
-        rear: view.getFloat32(0x21a, true),
+        front: parseReboundStiffness(view, 0x1ee),
+        rear: parseReboundStiffness(view, 0x21a),
       },
       bumpStiffness: {
-        front: view.getFloat32(0x1ea, true),
-        rear: view.getFloat32(0x216, true),
+        front: parseBumpStiffness(view, 0x1ea),
+        rear: parseBumpStiffness(view, 0x216),
       },
     },
     aero: {
-      front: view.getFloat32(0x19e, true),
-      rear: view.getFloat32(0x1a2, true),
+      front: parsePercent(view, 0x19e),
+      rear: parsePercent(view, 0x1a2),
     },
     brakes: {
-      balance: view.getFloat32(0x1ae, true),
-      pressure: view.getFloat32(0x1aa, true),
+      balance: parsePercent(view, 0x1ae),
+      pressure: parseBrakePressure(view, 0x1aa),
     },
     differential: {
       front: {
-        acceleration: view.getFloat32(0x1f2, true),
-        deceleration: view.getFloat32(0x1f6, true),
+        acceleration: parsePercent(view, 0x1f2),
+        deceleration: parsePercent(view, 0x1f6),
       },
       rear: {
-        acceleration: view.getFloat32(0x21e, true),
-        deceleration: view.getFloat32(0x222, true),
+        acceleration: parsePercent(view, 0x21e),
+        deceleration: parsePercent(view, 0x222),
       },
-      balance: view.getFloat32(0x1b6, true),
+      balance: parsePercent(view, 0x1b6),
     },
   };
   return {
-    ordinal: view.getInt32(0x2, true),
+    ordinal: parseInteger(view, 0x2),
     engine: {
       camshaft: parseDefault(view, 0x3e),
       valves: parseDefault(view, 0x42),
