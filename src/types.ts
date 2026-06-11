@@ -5,103 +5,157 @@
  */
 export type BinaryInput = ArrayBuffer | Uint8Array | Blob;
 
+/** Unit system options. */
+export enum UnitSystem {
+  Imperial,
+  Metric,
+}
+
+/** A range of values from min to max (inclusive). */
+export interface ValueRange {
+  min: number;
+  max: number;
+}
+
+/**
+ * The configuration of the parser.
+ * Supplying ranges will output values in the specified unit system (metric or imperial).
+ * Failing to do so will output values in percentage (slider position).
+ */
+export interface Configuration {
+  unitSystem: UnitSystem;
+  springs?: {
+    stiffness?: {
+      front: ValueRange;
+      rear: ValueRange;
+    };
+    rideHeight?: {
+      front: ValueRange;
+      rear: ValueRange;
+    };
+  };
+  aero?: {
+    front: ValueRange;
+    rear: ValueRange;
+  };
+}
+
+/**
+ * The parsed representation of an upgrade field.
+ * Contains the currently selected upgrade and the list of available upgrades.
+ */
+export interface UpgradeField {
+  selected: string;
+  options: string[];
+}
+
+/**
+ * The parsed representation of a tuning field.
+ * Contains the value, unit, and range of the tuning field.
+ */
+export interface TuningField {
+  value: number;
+  unit: string;
+  range: ValueRange;
+}
+
 /**
  * The parsed representation of a Forza tuning file.
  */
 export interface ForzaTune {
   ordinal: number;
   engine: {
-    intake: string;
-    intakeManifold: string | null;
-    fuelSystemOrCarburetor: string;
-    ignition: string;
-    exhaust: string;
-    camshaft: string;
-    valves: string;
-    displacement: string;
-    pistons: string;
-    singleTurbo: string | null;
-    twinTurbo: string | null;
-    centrifugalSupercharger: string | null;
-    supercharger: string | null;
-    intercooler: string;
-    oilCooling: string;
-    flywheel: string;
-    restrictorPlate: string | null;
+    intake: UpgradeField;
+    intakeManifold: UpgradeField | null;
+    fuelSystemOrCarburetor: UpgradeField;
+    ignition: UpgradeField;
+    exhaust: UpgradeField;
+    camshaft: UpgradeField;
+    valves: UpgradeField;
+    displacement: UpgradeField;
+    pistons: UpgradeField;
+    singleTurbo: UpgradeField | null;
+    twinTurbo: UpgradeField | null;
+    centrifugalSupercharger: UpgradeField | null;
+    supercharger: UpgradeField | null;
+    intercooler: UpgradeField;
+    oilCooling: UpgradeField;
+    flywheel: UpgradeField;
+    restrictorPlate: UpgradeField | null;
   };
   drivetrain: {
-    clutch: string;
-    transmission: string;
-    driveline: string;
-    differential: string;
+    clutch: UpgradeField;
+    transmission: UpgradeField;
+    driveline: UpgradeField;
+    differential: UpgradeField;
   };
   conversions: {
-    engineSwap: string;
-    drivetrainSwap: string;
-    bodySwap: string;
+    engineSwap: UpgradeField;
+    drivetrainSwap: UpgradeField;
+    bodySwap: UpgradeField;
   };
   tuning: {
     tyrePressure: {
-      front: number;
-      rear: number;
+      front: TuningField;
+      rear: TuningField;
     };
     gearing: {
-      finalDrive: number;
-      ratios: number[];
+      finalDrive: TuningField;
+      ratios: TuningField[];
     };
     alignment: {
       camber: {
-        front: number;
-        rear: number;
+        front: TuningField;
+        rear: TuningField;
       };
       toe: {
-        front: number;
-        rear: number;
+        front: TuningField;
+        rear: TuningField;
       };
-      caster: number;
+      caster: TuningField;
     };
     antiRollBars: {
-      front: number;
-      rear: number;
+      front: TuningField;
+      rear: TuningField;
     };
     springs: {
       stiffness: {
-        front: number;
-        rear: number;
+        front: TuningField;
+        rear: TuningField;
       };
       rideHeight: {
-        front: number;
-        rear: number;
+        front: TuningField;
+        rear: TuningField;
       };
     };
     damping: {
       reboundStiffness: {
-        front: number;
-        rear: number;
+        front: TuningField;
+        rear: TuningField;
       };
       bumpStiffness: {
-        front: number;
-        rear: number;
+        front: TuningField;
+        rear: TuningField;
       };
     };
     aero: {
-      front: number;
-      rear: number;
+      front: TuningField;
+      rear: TuningField;
     };
     brakes: {
-      balance: number;
-      pressure: number;
+      balance: TuningField;
+      pressure: TuningField;
     };
     differential: {
       front: {
-        acceleration: number;
-        deceleration: number;
+        acceleration: TuningField;
+        deceleration: TuningField;
       };
       rear: {
-        acceleration: number;
-        deceleration: number;
+        acceleration: TuningField;
+        deceleration: TuningField;
       };
-      balance: number;
+      balance: TuningField;
     };
   };
 }
