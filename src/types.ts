@@ -1,15 +1,11 @@
+import type {UnitSystem} from "./enums";
+
 /**
  * Binary input accepted by {@link parse}.
  *
  * `Blob` also covers the browser `File` object.
  */
 export type BinaryInput = ArrayBuffer | Uint8Array | Blob;
-
-/** Unit system options. */
-export enum UnitSystem {
-  Imperial,
-  Metric,
-}
 
 /** A range of values from min to max (inclusive). */
 export interface ValueRange {
