@@ -14,5 +14,5 @@ export function parseCaster(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
 ): number {
-  return lerp(view.getFloat32(byteOffset, true), 0.0, 7.0);
+  return lerp(view.getFloat32(byteOffset, true), 1.0, 7.0);
 }
