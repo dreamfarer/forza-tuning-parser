@@ -1,4 +1,4 @@
-import type { UpgradeField } from '../types';
+import type { UpgradeField } from '../../types';
 
 const options = [
   'Stock',
@@ -16,7 +16,7 @@ const options = [
 /**
  * Get the upgrade name from the raw upgrade ID.
  */
-function getUpgrade(raw: number, numGears: number) {
+function getUpgrade(raw: number, numGears: number): string | null {
   switch (raw % 1000) {
     case 0:
       return 'Stock';
@@ -34,7 +34,7 @@ function getUpgrade(raw: number, numGears: number) {
     case 8:
       return `Drift: 4-Speed`;
     default:
-      return 'Invalid';
+      return null;
   }
 }
 
@@ -46,6 +46,8 @@ function getUpgrade(raw: number, numGears: number) {
  * @param numGears The number of gears in the car.
  *
  * @returns The parsed transmission upgrade.
+ *
+ * @throws RangeError If the upgrade ID is invalid.
  */
 export function parseTransmission(
   view: DataView<ArrayBufferLike>,
@@ -54,5 +56,6 @@ export function parseTransmission(
 ): UpgradeField {
   const raw = view.getInt32(byteOffset, true);
   const selected = getUpgrade(raw, numGears);
+  if (selected === null) throw new RangeError('Invalid upgrade ID');
   return { raw, selected, options };
 }
