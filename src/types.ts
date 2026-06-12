@@ -1,4 +1,4 @@
-import type {UnitSystem} from "./enums";
+import type { UnitSystem } from './enums';
 
 /**
  * Binary input accepted by {@link parse}.
@@ -38,18 +38,20 @@ export interface Configuration {
 
 /**
  * The parsed representation of an upgrade field.
- * Contains the currently selected upgrade and the list of available upgrades.
+ * Contains the raw value, the currently selected upgrade, and the list of available upgrades.
  */
 export interface UpgradeField {
+  raw: number;
   selected: string;
   options: string[];
 }
 
 /**
  * The parsed representation of a tuning field.
- * Contains the value, unit, and range of the tuning field.
+ * Contains the raw value, in-game value, unit, and range of the tuning field.
  */
 export interface TuningField {
+  raw: number;
   value: number;
   unit: string;
   range: ValueRange;
