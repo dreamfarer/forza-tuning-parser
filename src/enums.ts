@@ -11,3 +11,9 @@ export enum UnitSystem {
   Imperial,
   Metric,
 }
+
+/** The position in relation to the car. */
+export enum Position {
+  Front,
+  Rear,
+}
