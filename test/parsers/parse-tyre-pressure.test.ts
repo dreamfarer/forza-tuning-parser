@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { UnitSystem } from '../../src/enums';
-import { parseTyrePressure } from '../../src/internal/parse-tyre-pressure';
+import { parseTyrePressure } from '../../src/internal/parsers/parse-tyre-pressure';
 import { makeFloatView } from '../helper';
 
 describe('parseTyrePressure', () => {
@@ -12,7 +12,7 @@ describe('parseTyrePressure', () => {
     expect(() => parseTyrePressure(makeFloatView(1.1), 0, config)).toThrow(
       RangeError,
     );
-  })
+  });
 
   it('imperial', () => {
     const config = { unitSystem: UnitSystem.Imperial };

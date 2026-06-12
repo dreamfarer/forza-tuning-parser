@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseTransmission } from '../../src/internal/parse-transmission';
+import { parseTransmission } from '../../src/internal/parsers/parse-transmission';
 import { makeIntView } from '../helper';
 
 describe('parseTransmission', () => {
@@ -183,9 +183,5 @@ describe('parseTransmission', () => {
       options,
     }));
   it('Invalid', () =>
-    expect(parseTransmission(makeIntView(9), 0, 6)).toEqual({
-      raw: 9,
-      selected: 'Invalid',
-      options,
-    }));
+    expect(() => parseTransmission(makeIntView(9), 0, 6)).toThrow(RangeError));
 });

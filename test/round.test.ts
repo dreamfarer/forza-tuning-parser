@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { round } from '../src/round';
 import { RoundingMode } from '../src/enums';
+import { round } from '../src/round';
 
 describe('round', () => {
   describe('Whole (nearest 1)', () => {

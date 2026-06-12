@@ -1,19 +1,39 @@
 import { describe, expect, it } from 'vitest';
-import { parseEngineSwap } from '../../src/internal/parse-engine-swap';
+import { parseEngineSwap } from '../../src/internal/parsers/parse-engine-swap';
 import { makeIntView } from '../helper';
 
 describe('parseEngineSwap', () => {
-  it('general', () => {
-    expect(parseEngineSwap(makeIntView(0), 0)).toBe('Stock');
-    expect(parseEngineSwap(makeIntView(1), 0)).toBe('1st Non-Stock');
-    expect(parseEngineSwap(makeIntView(2), 0)).toBe('2nd Non-Stock');
-    expect(parseEngineSwap(makeIntView(3), 0)).toBe('3rd Non-Stock');
-    expect(parseEngineSwap(makeIntView(4), 0)).toBe('4th Non-Stock');
-    expect(parseEngineSwap(makeIntView(5), 0)).toBe('5th Non-Stock');
-    expect(parseEngineSwap(makeIntView(6), 0)).toBe('6th Non-Stock');
-    expect(parseEngineSwap(makeIntView(7), 0)).toBe('7th Non-Stock');
-    expect(parseEngineSwap(makeIntView(8), 0)).toBe('8th Non-Stock');
-    expect(parseEngineSwap(makeIntView(9), 0)).toBe('9th Non-Stock');
-    expect(parseEngineSwap(makeIntView(10), 0)).toBe('Invalid');
-  });
+  const options = [
+    'Stock',
+    '1st Non-Stock',
+    '2nd Non-Stock',
+    '3rd Non-Stock',
+    '4th Non-Stock',
+    '5th Non-Stock',
+    '6th Non-Stock',
+    '7th Non-Stock',
+    '8th Non-Stock',
+    '9th Non-Stock',
+  ];
+
+  it.each([
+    [0, 'Stock'],
+    [1, '1st Non-Stock'],
+    [2, '2nd Non-Stock'],
+    [3, '3rd Non-Stock'],
+    [4, '4th Non-Stock'],
+    [5, '5th Non-Stock'],
+    [6, '6th Non-Stock'],
+    [7, '7th Non-Stock'],
+    [8, '8th Non-Stock'],
+    [9, '9th Non-Stock'],
+  ])('raw %i -> %s', (raw, selected) =>
+    expect(parseEngineSwap(makeIntView(raw), 0)).toEqual({
+      raw,
+      selected,
+      options,
+    }));
+
+  it('Invalid', () =>
+    expect(() => parseEngineSwap(makeIntView(10), 0)).toThrow(RangeError));
 });

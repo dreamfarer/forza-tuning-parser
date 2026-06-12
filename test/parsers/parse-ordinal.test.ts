@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseOrdinal } from '../../src/internal/parse-ordinal';
+import { parseOrdinal } from '../../src/internal/parsers/parse-ordinal';
 import { makeIntView } from '../helper';
 
 describe('parseOrdinal', () => {

@@ -1,14 +1,36 @@
 import { describe, expect, it } from 'vitest';
-import { parseDefault } from '../../src/internal/parse-default';
+import { parseDefault } from '../../src/internal/parsers/parse-default';
 import { makeIntView } from '../helper';
 
 describe('parseDefault', () => {
-  it('general', () => {
-    expect(parseDefault(makeIntView(-1), 0)).toBe('Invalid');
-    expect(parseDefault(makeIntView(0), 0)).toBe('Stock');
-    expect(parseDefault(makeIntView(1), 0)).toBe('Street');
-    expect(parseDefault(makeIntView(2), 0)).toBe('Sport');
-    expect(parseDefault(makeIntView(3), 0)).toBe('Race');
-    expect(parseDefault(makeIntView(4), 0)).toBe('Invalid');
-  });
+  const options = ['Stock', 'Street', 'Sport', 'Race'];
+
+  it('Stock', () =>
+    expect(parseDefault(makeIntView(0), 0)).toEqual({
+      raw: 0,
+      selected: 'Stock',
+      options,
+    }));
+  it('Street', () =>
+    expect(parseDefault(makeIntView(1), 0)).toEqual({
+      raw: 1,
+      selected: 'Street',
+      options,
+    }));
+  it('Sport', () =>
+    expect(parseDefault(makeIntView(2), 0)).toEqual({
+      raw: 2,
+      selected: 'Sport',
+      options,
+    }));
+  it('Race', () =>
+    expect(parseDefault(makeIntView(3), 0)).toEqual({
+      raw: 3,
+      selected: 'Race',
+      options,
+    }));
+  it('Invalid (negative)', () =>
+    expect(() => parseDefault(makeIntView(-1), 0)).toThrow(RangeError));
+  it('Invalid (out of range)', () =>
+    expect(() => parseDefault(makeIntView(4), 0)).toThrow(RangeError));
 });
