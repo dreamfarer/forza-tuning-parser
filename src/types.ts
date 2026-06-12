@@ -53,7 +53,7 @@ export interface UpgradeField {
 export interface TuningField {
   raw: number;
   value: number;
-  unit: string;
+  unit: string | null;
   range: ValueRange;
 }
 
