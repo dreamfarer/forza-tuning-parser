@@ -1,10 +1,26 @@
+import { RoundingMode, UnitSystem } from '../enums';
+import type { Configuration, TuningField } from '../types';
 import { lerp } from './lerp';
+
+const CONFIGS = {
+  [UnitSystem.Imperial]: {
+    range: { min: 15.0, max: 55.0 },
+    unit: 'psi',
+    roundingMode: RoundingMode.Half,
+  },
+  [UnitSystem.Metric]: {
+    range: { min: 1.0, max: 3.8 },
+    unit: 'bar',
+    roundingMode: RoundingMode.SingleDigit,
+  },
+};
 
 /**
  * Parses a tyre pressure value from a binary Forza tuning file.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.
+ * @param config The configuration containing the unit system and value ranges.
  *
  * @returns The parsed tyre pressure value.
  *
@@ -13,6 +29,10 @@ import { lerp } from './lerp';
 export function parseTyrePressure(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
-): number {
-  return lerp(view.getFloat32(byteOffset, true), 15.0, 55.0);
+  config: Configuration,
+): TuningField {
+  const { range, unit, roundingMode } = CONFIGS[config.unitSystem];
+  const raw = view.getFloat32(byteOffset, true);
+  const value = lerp(raw, range, roundingMode);
+  return { raw, value, unit, range };
 }
