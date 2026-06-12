@@ -24,7 +24,7 @@ const CONFIGS = {
  *
  * @returns The parsed tyre pressure as a {@link TuningField} object.
  *
- * @throws RangeError If the tyre pressure value is not between 15 and 55 PSI.
+ * @throws RangeError If the raw tyre pressure value is not between 0 and 1.
  */
 export function parseTyrePressure(
   view: DataView<ArrayBufferLike>,
