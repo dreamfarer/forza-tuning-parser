@@ -4,7 +4,7 @@ import { lerp } from '../lerp';
 
 const CONFIGS = {
   [UnitSystem.Imperial]: {
-    unit: 'ln',
+    unit: 'in',
   },
   [UnitSystem.Metric]: {
     unit: 'cm',
