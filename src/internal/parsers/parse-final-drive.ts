@@ -17,8 +17,8 @@ export function parseFinalDrive(
   byteOffset: number,
 ): TuningField {
   const raw = view.getFloat32(byteOffset, true);
-  const value = lerp(raw, { min: 2.2, max: 6.1 }, RoundingMode.DoubleDigit);
   const unit = '°';
   const range = { min: 2.2, max: 6.1 };
+  const value = lerp(raw, range, RoundingMode.DoubleDigit);
   return { raw, value, unit, range };
 }

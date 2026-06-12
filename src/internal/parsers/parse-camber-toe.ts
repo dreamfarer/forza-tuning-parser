@@ -3,7 +3,7 @@ import type { TuningField } from '../../types';
 import { lerp } from '../lerp';
 
 /**
- * Parse a camber or toe angle value from a binary Forza tuning file.
+ * Parse a camber or toe angle from a binary Forza tuning file.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.

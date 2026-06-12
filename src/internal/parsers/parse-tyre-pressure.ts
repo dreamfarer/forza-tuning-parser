@@ -16,7 +16,7 @@ const CONFIGS = {
 };
 
 /**
- * Parses a tyre pressure value from a binary Forza tuning file.
+ * Parse tyre pressure from a binary Forza tuning file.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.
@@ -24,7 +24,7 @@ const CONFIGS = {
  *
  * @returns The parsed tyre pressure as a {@link TuningField} object.
  *
- * @throws RangeError If the raw tyre pressure value is not between 0 and 1.
+ * @throws RangeError If the raw float value is not between 0 and 1.
  */
 export function parseTyrePressure(
   view: DataView<ArrayBufferLike>,

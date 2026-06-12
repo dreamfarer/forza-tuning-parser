@@ -17,8 +17,8 @@ export function parseGearRatios(
   byteOffset: number,
 ): TuningField[] {
   const tuningFields: TuningField[] = [];
-  const range = { min: 0.48, max: 6.0 };
   const unit = null;
+  const range = { min: 0.48, max: 6.0 };
   for (let i = 0; i < 10; i++) {
     const raw = view.getFloat32(byteOffset + i * 4, true);
     if (raw === -1) continue;
