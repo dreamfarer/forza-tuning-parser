@@ -1,16 +1,29 @@
-import { parseDefault } from './internal/parse-default';
-import { parseDefaultIntercooler } from './internal/parse-default-Intercooler';
-import { parseDefaultOptional } from './internal/parse-default-optional';
-import { parseDifferential } from './internal/parse-differential';
-import { parseDrivetrainSwap } from './internal/parse-drivetrain-swap';
-import { parseEngineSwap } from './internal/parse-engine-swap';
-import { parseRestrictorPlate } from './internal/parse-restrictor-plate';
-import { parseStockNonStock } from './internal/parse-stock-non-stock';
-import { parseTransmission } from './internal/parse-transmission';
-import { parseTurbo } from './internal/parse-turbo';
-import { readFloatArray } from './internal/read-float-array';
+import { Position, UnitSystem } from './enums';
+import { parseAero } from './internal/parsers/parse-aero';
+import { parseAntiRollBar } from './internal/parsers/parse-anti-roll-bar';
+import { parseBrakePressure } from './internal/parsers/parse-brake-pressure';
+import { parseBumpRebound } from './internal/parsers/parse-bump-rebound';
+import { parseCamberToe } from './internal/parsers/parse-camber-toe';
+import { parseCaster } from './internal/parsers/parse-caster';
+import { parseDefault } from './internal/parsers/parse-default';
+import { parseDefaultOptional } from './internal/parsers/parse-default-optional';
+import { parseDifferential } from './internal/parsers/parse-differential';
+import { parseDrivetrainSwap } from './internal/parsers/parse-drivetrain-swap';
+import { parseEngineSwap } from './internal/parsers/parse-engine-swap';
+import { parseFinalDrive } from './internal/parsers/parse-final-drive';
+import { parseGearRatios } from './internal/parsers/parse-gear-ratios';
+import { parseIntercooler } from './internal/parsers/parse-intercooler';
+import { parseOrdinal } from './internal/parsers/parse-ordinal';
+import { parsePercent } from './internal/parsers/parse-percent';
+import { parseRestrictorPlate } from './internal/parsers/parse-restrictor-plate';
+import { parseRideHeight } from './internal/parsers/parse-ride-height';
+import { parseSpringStiffness } from './internal/parsers/parse-spring-stiffness';
+import { parseStockNonStock } from './internal/parsers/parse-stock-non-stock';
+import { parseTransmission } from './internal/parsers/parse-transmission';
+import { parseTurbo } from './internal/parsers/parse-turbo';
+import { parseTyrePressure } from './internal/parsers/parse-tyre-pressure';
 import { toBytes } from './internal/to-bytes.js';
-import type { BinaryInput, ForzaTune } from './types.js';
+import type { BinaryInput, Configuration, ForzaTune } from './types.js';
 
 /**
  * Parse a binary Forza tuning file into a typed {@link ForzaTune} object.
@@ -38,12 +51,78 @@ import type { BinaryInput, ForzaTune } from './types.js';
  *
  * @throws {TypeError} if `input` is not a supported binary type.
  */
-export async function parse(input: BinaryInput): Promise<ForzaTune> {
+export async function parse(
+  input: BinaryInput,
+  config: Configuration = { unitSystem: UnitSystem.Imperial },
+): Promise<ForzaTune> {
   const bytes = await toBytes(input);
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  const tuning = { gearRatios: readFloatArray(view, 0x22e, 10) };
+  const tuning = {
+    tyrePressure: {
+      front: parseTyrePressure(view, 0x1ce, config),
+      rear: parseTyrePressure(view, 0x1fa, config),
+    },
+    gearing: {
+      finalDrive: parseFinalDrive(view, 0x1a6),
+      ratios: parseGearRatios(view, 0x22e),
+    },
+    alignment: {
+      camber: {
+        front: parseCamberToe(view, 0x1d2),
+        rear: parseCamberToe(view, 0x1fe),
+      },
+      toe: {
+        front: parseCamberToe(view, 0x1d6),
+        rear: parseCamberToe(view, 0x202),
+      },
+      caster: parseCaster(view, 0x1da),
+    },
+    antiRollBars: {
+      front: parseAntiRollBar(view, 0x1e2),
+      rear: parseAntiRollBar(view, 0x20e),
+    },
+    springs: {
+      stiffness: {
+        front: parseSpringStiffness(view, 0x1de, config, Position.Front),
+        rear: parseSpringStiffness(view, 0x20a, config, Position.Rear),
+      },
+      rideHeight: {
+        front: parseRideHeight(view, 0x1e6, config, Position.Front),
+        rear: parseRideHeight(view, 0x212, config, Position.Rear),
+      },
+    },
+    damping: {
+      reboundStiffness: {
+        front: parseBumpRebound(view, 0x1ee),
+        rear: parseBumpRebound(view, 0x21a),
+      },
+      bumpStiffness: {
+        front: parseBumpRebound(view, 0x1ea),
+        rear: parseBumpRebound(view, 0x216),
+      },
+    },
+    aero: {
+      front: parseAero(view, 0x19e, config, Position.Front),
+      rear: parseAero(view, 0x1a2, config, Position.Rear),
+    },
+    brakes: {
+      balance: parsePercent(view, 0x1ae),
+      pressure: parseBrakePressure(view, 0x1aa),
+    },
+    differential: {
+      front: {
+        acceleration: parsePercent(view, 0x1f2),
+        deceleration: parsePercent(view, 0x1f6),
+      },
+      rear: {
+        acceleration: parsePercent(view, 0x21e),
+        deceleration: parsePercent(view, 0x222),
+      },
+      balance: parsePercent(view, 0x1b6),
+    },
+  };
   return {
-    ordinal: view.getInt32(0x2, true),
+    ordinal: parseOrdinal(view, 0x2),
     engine: {
       camshaft: parseDefault(view, 0x3e),
       valves: parseDefault(view, 0x42),
@@ -61,11 +140,11 @@ export async function parse(input: BinaryInput): Promise<ForzaTune> {
       twinTurbo: parseTurbo(view, 0x72),
       centrifugalSupercharger: parseDefaultOptional(view, 0x7a),
       supercharger: parseDefaultOptional(view, 0x7e),
-      intercooler: parseDefaultIntercooler(view, 0x82),
+      intercooler: parseIntercooler(view, 0x82),
     },
     drivetrain: {
       clutch: parseDefault(view, 0x86),
-      transmission: parseTransmission(view, 0x8a, tuning.gearRatios),
+      transmission: parseTransmission(view, 0x8a, tuning.gearing.ratios.length),
       driveline: parseDefault(view, 0x8e),
       differential: parseDifferential(view, 0x92),
     },
