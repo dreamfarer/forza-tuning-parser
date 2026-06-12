@@ -1,6 +1,6 @@
-import { RoundingMode, UnitSystem } from '../enums';
-import type { Configuration, TuningField } from '../types';
-import { lerp } from './lerp';
+import { RoundingMode, UnitSystem } from '../../enums';
+import type { Configuration, TuningField } from '../../types';
+import { lerp } from '../lerp';
 
 const CONFIGS = {
   [UnitSystem.Imperial]: {
@@ -20,9 +20,9 @@ const CONFIGS = {
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.
- * @param config The configuration containing the unit system and value ranges.
+ * @param config The configuration containing the unit system.
  *
- * @returns The parsed tyre pressure value.
+ * @returns The parsed tyre pressure as a {@link TuningField} object.
  *
  * @throws RangeError If the tyre pressure value is not between 15 and 55 PSI.
  */
