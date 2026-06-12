@@ -9,8 +9,8 @@ describe('parseDifferential', () => {
     'Sport',
     'Race',
     'Rally',
-    'Off-Road',
     'Drift',
+    'Off-Road',
   ];
 
   it('Stock', () =>
