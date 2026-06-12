@@ -1,21 +1,23 @@
+import type { UpgradeField } from '../types';
+
+const options = [
+  'Stock',
+  'Street',
+  'Sport',
+  'Race',
+  'Race: 6-Speed',
+  'Race: 7-Speed',
+  'Race: 8-Speed',
+  'Race: 9-Speed',
+  'Race: 10-Speed',
+  'Drift: 4-Speed',
+];
+
 /**
- * Parse the transmission upgrade from a binary Forza tuning file.
- *
- * @param view The DataView to read from.
- * @param byteOffset The byte offset to read from.
- * @param gearRatios The array of gear ratios.
- *
- * @returns The parsed transmission upgrade.
+ * Get the upgrade name from the raw upgrade ID.
  */
-export function parseTransmission(
-  view: DataView<ArrayBufferLike>,
-  byteOffset: number,
-  gearRatios: number[],
-): string {
-  const numGears = gearRatios.filter((ratio) => ratio > 0).length;
-  const upgradeId = view.getInt32(byteOffset, true);
-  const upgradeGrade = upgradeId % 1000;
-  switch (upgradeGrade) {
+function getUpgrade(raw: number, numGears: number) {
+  switch (raw % 1000) {
     case 0:
       return 'Stock';
     case 1:
@@ -34,4 +36,23 @@ export function parseTransmission(
     default:
       return 'Invalid';
   }
+}
+
+/**
+ * Parse the transmission upgrade from a binary Forza tuning file.
+ *
+ * @param view The DataView to read from.
+ * @param byteOffset The byte offset to read from.
+ * @param numGears The number of gears in the car.
+ *
+ * @returns The parsed transmission upgrade.
+ */
+export function parseTransmission(
+  view: DataView<ArrayBufferLike>,
+  byteOffset: number,
+  numGears: number,
+): UpgradeField {
+  const raw = view.getInt32(byteOffset, true);
+  const selected = getUpgrade(raw, numGears);
+  return { raw, selected, options };
 }
