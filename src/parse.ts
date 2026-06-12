@@ -1,4 +1,5 @@
-import { UnitSystem } from './enums';
+import { Position, UnitSystem } from './enums';
+import { parseAero } from './internal/parsers/parse-aero';
 import { parseAntiRollBar } from './internal/parsers/parse-anti-roll-bar';
 import { parseBrakePressure } from './internal/parsers/parse-brake-pressure';
 import { parseBumpRebound } from './internal/parsers/parse-bump-rebound';
@@ -16,10 +17,7 @@ import { parseOrdinal } from './internal/parsers/parse-ordinal';
 import { parsePercent } from './internal/parsers/parse-percent';
 import { parseRestrictorPlate } from './internal/parsers/parse-restrictor-plate';
 import { parseRideHeight } from './internal/parsers/parse-ride-height';
-import {
-  Position,
-  parseSpringStiffness,
-} from './internal/parsers/parse-spring-stiffness';
+import { parseSpringStiffness } from './internal/parsers/parse-spring-stiffness';
 import { parseStockNonStock } from './internal/parsers/parse-stock-non-stock';
 import { parseTransmission } from './internal/parsers/parse-transmission';
 import { parseTurbo } from './internal/parsers/parse-turbo';
@@ -104,8 +102,8 @@ export async function parse(
       },
     },
     aero: {
-      front: parsePercent(view, 0x19e),
-      rear: parsePercent(view, 0x1a2),
+      front: parseAero(view, 0x19e, config, Position.Front),
+      rear: parseAero(view, 0x1a2, config, Position.Rear),
     },
     brakes: {
       balance: parsePercent(view, 0x1ae),
