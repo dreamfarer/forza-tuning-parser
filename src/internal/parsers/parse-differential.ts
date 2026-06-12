@@ -6,8 +6,8 @@ const options = [
   'Sport',
   'Race',
   'Rally',
-  'Off-Road',
   'Drift',
+  'Off-Road',
 ];
 
 /**
