@@ -87,6 +87,14 @@ export interface ForzaTune {
     driveline: UpgradeField;
     differential: UpgradeField;
   };
+  platform: {
+    brakes: UpgradeField;
+    springsAndDampers: UpgradeField;
+    frontAntiRollBar: UpgradeField;
+    rearAntiRollBar: UpgradeField;
+    weightReduction: UpgradeField;
+    chassisReinforcement: UpgradeField;
+  };
   conversions: {
     engineSwap: UpgradeField;
     drivetrainSwap: UpgradeField;

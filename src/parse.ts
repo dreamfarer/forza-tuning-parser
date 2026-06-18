@@ -24,6 +24,7 @@ import { parseTurbo } from './internal/parsers/parse-turbo';
 import { parseTyrePressure } from './internal/parsers/parse-tyre-pressure';
 import { toBytes } from './internal/to-bytes.js';
 import type { BinaryInput, Configuration, ForzaTune } from './types.js';
+import {parseSpringsAndDampers} from "./internal/parsers/parse-springs-and-dampers";
 
 /**
  * Parse a binary Forza tuning file into a typed {@link ForzaTune} object.
@@ -141,6 +142,14 @@ export async function parse(
       centrifugalSupercharger: parseDefaultOptional(view, 0x7a),
       supercharger: parseDefaultOptional(view, 0x7e),
       intercooler: parseIntercooler(view, 0x82),
+    },
+    platform: {
+      brakes: parseDefault(view, 0x1E),
+      springsAndDampers: parseSpringsAndDampers(view, 0x22),
+      frontAntiRollBar: parseDefault(view, 0x26),
+      rearAntiRollBar: parseDefault(view, 0x2a),
+      weightReduction: parseDefault(view, 0xAE),
+      chassisReinforcement: parseDefault(view, 0x32),
     },
     drivetrain: {
       clutch: parseDefault(view, 0x86),
