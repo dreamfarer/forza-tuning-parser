@@ -18,6 +18,7 @@ import { parsePercent } from './internal/parsers/parse-percent';
 import { parseRestrictorPlate } from './internal/parsers/parse-restrictor-plate';
 import { parseRideHeight } from './internal/parsers/parse-ride-height';
 import { parseSpringStiffness } from './internal/parsers/parse-spring-stiffness';
+import { parseSpringsAndDampers } from './internal/parsers/parse-springs-and-dampers';
 import { parseStockNonStock } from './internal/parsers/parse-stock-non-stock';
 import { parseTransmission } from './internal/parsers/parse-transmission';
 import { parseTurbo } from './internal/parsers/parse-turbo';
@@ -141,6 +142,14 @@ export async function parse(
       centrifugalSupercharger: parseDefaultOptional(view, 0x7a),
       supercharger: parseDefaultOptional(view, 0x7e),
       intercooler: parseIntercooler(view, 0x82),
+    },
+    platform: {
+      brakes: parseDefault(view, 0x1e),
+      springsAndDampers: parseSpringsAndDampers(view, 0x22),
+      frontAntiRollBar: parseDefault(view, 0x26),
+      rearAntiRollBar: parseDefault(view, 0x2a),
+      weightReduction: parseDefault(view, 0xae),
+      chassisReinforcement: parseDefault(view, 0x32),
     },
     drivetrain: {
       clutch: parseDefault(view, 0x86),

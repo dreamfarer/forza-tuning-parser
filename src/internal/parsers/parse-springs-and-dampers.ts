@@ -1,6 +1,14 @@
 import type { UpgradeField } from '../../types';
 
-const options = ['Stock', 'Street', 'Sport', 'Race'];
+const options = [
+  'Stock',
+  'Street',
+  'Sport',
+  'Race',
+  'Rally',
+  'Drift',
+  'Off-Road',
+];
 
 /**
  * Get the upgrade name from the raw upgrade ID.
@@ -15,22 +23,28 @@ function getUpgrade(raw: number): string | null {
       return 'Sport';
     case 3:
       return 'Race';
+    case 4:
+      return 'Rally';
+    case 5:
+      return 'Drift';
+    case 6:
+      return 'Off-Road';
     default:
       return null;
   }
 }
 
 /**
- * Parse an arbitrary upgrade grade from a binary Forza tuning file.
+ * Parse the springs and dampers upgrade from a binary Forza tuning file.
  *
  * @param view The DataView to read from.
  * @param byteOffset The byte offset to read from.
  *
- * @returns The parsed upgrade grade.
+ * @returns The parsed springs and dampers upgrade.
  *
  * @throws RangeError If the upgrade ID is invalid.
  */
-export function parseDefault(
+export function parseSpringsAndDampers(
   view: DataView<ArrayBufferLike>,
   byteOffset: number,
 ): UpgradeField {
