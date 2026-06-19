@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { parseSpringsAndDampers } from '../../src/internal/parsers/parse-springs-and-dampers';
 import { makeIntView } from '../helper';
-import {parseSpringsAndDampers} from "../../src/internal/parsers/parse-springs-and-dampers";
 
 describe('parseSpringsAndDampers', () => {
   const options = [
@@ -14,7 +14,9 @@ describe('parseSpringsAndDampers', () => {
   ];
 
   it('Invalid springs and dampers', () => {
-    expect(() => parseSpringsAndDampers(makeIntView(-1), 0)).toThrow(RangeError);
+    expect(() => parseSpringsAndDampers(makeIntView(-1), 0)).toThrow(
+      RangeError,
+    );
     expect(() => parseSpringsAndDampers(makeIntView(8), 0)).toThrow(RangeError);
   });
 
