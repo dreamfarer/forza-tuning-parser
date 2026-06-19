@@ -11,26 +11,31 @@ describe('parseDefault', () => {
       selected: 'Stock',
       options,
     }));
+
   it('Street', () =>
     expect(parseDefault(makeIntView(1), 0)).toEqual({
       raw: 1,
       selected: 'Street',
       options,
     }));
+
   it('Sport', () =>
     expect(parseDefault(makeIntView(2), 0)).toEqual({
       raw: 2,
       selected: 'Sport',
       options,
     }));
+
   it('Race', () =>
     expect(parseDefault(makeIntView(3), 0)).toEqual({
       raw: 3,
       selected: 'Race',
       options,
     }));
+
   it('Invalid (negative)', () =>
     expect(() => parseDefault(makeIntView(-1), 0)).toThrow(RangeError));
+
   it('Invalid (out of range)', () =>
     expect(() => parseDefault(makeIntView(4), 0)).toThrow(RangeError));
 });
