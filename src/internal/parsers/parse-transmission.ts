@@ -17,7 +17,7 @@ const options = [
  * Get the upgrade name from the raw upgrade ID.
  */
 function getUpgrade(raw: number, numGears: number): string | null {
-  switch (raw % 1000) {
+  switch (raw % 100) {
     case 0:
       return 'Stock';
     case 1:

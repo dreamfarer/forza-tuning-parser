@@ -6,7 +6,7 @@ const options = ['Stock', 'Street', 'Sport', 'Race', 'Race with Anti-Lag'];
  * Get the upgrade name from the raw upgrade ID.
  */
 function getUpgrade(raw: number): string | null | undefined {
-  switch (raw % 1000) {
+  switch (raw % 100) {
     case -1:
       return null;
     case 0:

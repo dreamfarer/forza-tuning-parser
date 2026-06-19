@@ -6,7 +6,7 @@ const options = ['No Intercooler', 'Stock', 'Street', 'Sport', 'Race'];
  * Get the upgrade name from the raw upgrade ID.
  */
 function getUpgrade(raw: number): string | null {
-  switch (raw % 1000) {
+  switch (raw % 100) {
     case -1:
       return 'No Intercooler';
     case 0:
